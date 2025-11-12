@@ -28,7 +28,7 @@ export interface FileValidationResult {
   error?: string;
 }
 
-export const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-export const MAX_FILES = 10;
-export const MIN_FILES = 5;
+export const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
+export const MAX_FILES = 3;
+export const MIN_FILES = 1;
 export const ACCEPTED_FILE_TYPES = ['image/png', 'image/jpeg', 'image/jpg'];

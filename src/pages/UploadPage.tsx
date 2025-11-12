@@ -5,7 +5,7 @@ import { DragDropZone } from '../components/upload/DragDropZone';
 import { FilePreview } from '../components/upload/FilePreview';
 import { ManualTextInput } from '../components/upload/ManualTextInput';
 import { Button } from '../components/common/Button';
-import { MIN_FILES } from '../types';
+import { MIN_FILES, MAX_FILES } from '../types';
 import { mockAnalysisResult } from '../utils/mockData';
 
 export function UploadPage() {
@@ -38,7 +38,7 @@ export function UploadPage() {
             Discover Your Enneagram Type
           </h1>
           <p className="text-lg text-gray-600">
-            Upload 5+ posts from LinkedIn or Twitter
+            Upload up to 3 items from LinkedIn or Twitter
           </p>
         </header>
 
@@ -90,7 +90,7 @@ export function UploadPage() {
             <div className="pt-4 border-t border-gray-200">
               <div className="flex items-center justify-between mb-2">
                 <span className="text-sm font-medium text-gray-700">
-                  {totalInputs} of {MIN_FILES} posts added
+                  {totalInputs} of {MAX_FILES} items added
                 </span>
                 {canAnalyze && (
                   <span className="text-sm text-green-600 font-medium">
@@ -103,7 +103,7 @@ export function UploadPage() {
                   className={`h-2 rounded-full transition-all ${
                     canAnalyze ? 'bg-green-500' : 'bg-blue-500'
                   }`}
-                  style={{ width: `${Math.min(100, (totalInputs / MIN_FILES) * 100)}%` }}
+                  style={{ width: `${Math.min(100, (totalInputs / MAX_FILES) * 100)}%` }}
                 />
               </div>
             </div>
@@ -118,10 +118,13 @@ export function UploadPage() {
               size="lg"
               className="w-full"
             >
-              {canAnalyze
-                ? '✨ Analyze My Patterns'
-                : `Add ${MIN_FILES - totalInputs} more to start`}
+              ✨ Analyze My Patterns
             </Button>
+            {!canAnalyze && (
+              <p className="mt-3 text-sm text-gray-500 text-center">
+                Add at least 1 item to get started
+              </p>
+            )}
           </div>
         </div>
 
