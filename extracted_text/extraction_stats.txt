@@ -1,0 +1,9 @@
+Text Extraction Statistics
+============================================================
+
+Screenshot 2025-11-12 at 19.52.25.png: 46 words
+Screenshot 2025-11-12 at 19.52.55.png: 115 words
+Screenshot 2025-11-12 at 19.53.20.png: 75 words
+Screenshot 2025-11-12 at 19.53.42.png: 93 words
+
+Total words extracted: 329
