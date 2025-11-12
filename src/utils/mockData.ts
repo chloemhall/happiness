@@ -44,6 +44,8 @@ export const mockAnalysisResult: AnalysisResult = {
     wing: 'w4',
     confidence: 82,
     description: 'The Achiever with a creative edge - success-oriented with authentic self-expression',
+    integrationPath: 6,
+    stressPath: 9,
   },
   behavioralDimensions: mockBehavioralDimensions,
   growthRecommendations: [

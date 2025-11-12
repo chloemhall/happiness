@@ -8,6 +8,8 @@ export interface EnneagramTypeResult {
   wing: Wing | null;
   confidence: number; // 0-100
   description: string;
+  integrationPath?: EnneagramType; // Growth direction
+  stressPath?: EnneagramType; // Stress/disintegration direction
 }
 
 // Behavioral Dimensions
@@ -58,4 +60,12 @@ export interface PlatformStats {
   twitterPosts: number;
   totalWords: number;
   averagePostLength: number;
+}
+
+// Dimension Tooltips
+export interface DimensionTooltip {
+  dimension: string;
+  score: number;
+  interpretation: string;
+  example: string;
 }

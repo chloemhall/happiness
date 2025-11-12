@@ -7,6 +7,7 @@ import { ManualTextInput } from '../components/upload/ManualTextInput';
 import { Button } from '../components/common/Button';
 import { MIN_FILES, MAX_FILES } from '../types';
 import { mockAnalysisResult } from '../utils/mockData';
+import { SampleCarousel } from '../components/samples/SampleCarousel';
 
 export function UploadPage() {
   const { state, dispatch } = useAppContext();
@@ -41,6 +42,13 @@ export function UploadPage() {
             Upload up to 3 items from LinkedIn or Twitter
           </p>
         </header>
+
+        {/* Sample Carousel */}
+        {totalInputs === 0 && (
+          <div className="mb-12">
+            <SampleCarousel />
+          </div>
+        )}
 
         {/* Main Card */}
         <div className="bg-white rounded-xl shadow-lg p-8 space-y-6">

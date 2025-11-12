@@ -34,12 +34,12 @@
   - Should accept valid PNG file
   - Should accept valid JPEG file
   - Should reject invalid file types (PDF, TXT, etc.)
-  - Should reject files exceeding size limit
+  - Should reject files exceeding size limit (5MB)
   - Should return proper error messages for each failure
 
 - ✅ `validateFileCount()`
   - Should allow upload when under max limit
-  - Should reject when exceeding max files (10)
+  - Should reject when exceeding max files (3)
   - Should calculate total count correctly (current + new)
   - Should return proper error message with file counts
 
@@ -133,14 +133,15 @@
 - ✅ Should display privacy policy before upload
 - ✅ Should show drag-and-drop zone
 - ✅ Should accept file drops
-- ✅ Should validate files on upload
+- ✅ Should validate files on upload (5MB max)
 - ✅ Should display thumbnail previews
 - ✅ Should allow file removal
 - ✅ Should allow file reordering
 - ✅ Should show manual text input option
 - ✅ Should toggle between screenshot/text input modes
-- ✅ Should validate max file count (10)
+- ✅ Should validate max file count (3)
 - ✅ Should show error messages for invalid uploads
+- ✅ Should enable analyze button with minimum 1 item
 
 **Priority:** HIGH - Core user interaction
 
@@ -302,14 +303,14 @@ npm test -- fileValidation.test
 
 ### Mock Data
 - Create `mockData.ts` with sample:
-  - Valid/invalid files
+  - Valid/invalid files (max 3 items, 5MB each)
   - Sample analysis results
   - Sample behavioral dimensions
   - Sample Enneagram types
 
 ### Test Fixtures
-- Sample images for upload testing
-- Sample text extracts
+- Sample images for upload testing (under 5MB)
+- Sample text extracts (1-3 items)
 - Sample error scenarios
 
 ---

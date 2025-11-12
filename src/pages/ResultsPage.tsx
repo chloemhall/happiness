@@ -4,6 +4,8 @@ import { useEffect } from 'react';
 import { BehavioralDimensions } from '../components/results/BehavioralDimensions';
 import { TypeIdentification } from '../components/results/TypeIdentification';
 import { GrowthRecommendations } from '../components/results/GrowthRecommendations';
+import { RadarChart } from '../components/results/RadarChart';
+import { IntegrationPathCard } from '../components/results/IntegrationPathCard';
 import { Button } from '../components/common/Button';
 
 export function ResultsPage() {
@@ -73,7 +75,28 @@ export function ResultsPage() {
             evidence={state.analysisResult.evidence}
           />
 
-          {/* Behavioral Dimensions */}
+          {/* Integration/Stress Paths */}
+          {(state.analysisResult.typeIdentification.integrationPath ||
+            state.analysisResult.typeIdentification.stressPath) && (
+            <IntegrationPathCard
+              primaryType={state.analysisResult.typeIdentification.primaryType}
+              integrationPath={state.analysisResult.typeIdentification.integrationPath}
+              stressPath={state.analysisResult.typeIdentification.stressPath}
+            />
+          )}
+
+          {/* Behavioral Dimensions - Radar Chart */}
+          <div className="bg-white rounded-lg shadow-lg p-8">
+            <h2 className="text-2xl font-bold text-gray-900 mb-2 text-center">
+              Your Behavioral Profile
+            </h2>
+            <p className="text-gray-600 mb-8 text-center">
+              Hover over each dimension to see details
+            </p>
+            <RadarChart dimensions={state.analysisResult.behavioralDimensions} />
+          </div>
+
+          {/* Behavioral Dimensions - List View */}
           <BehavioralDimensions
             dimensions={state.analysisResult.behavioralDimensions}
           />
