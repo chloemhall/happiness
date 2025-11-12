@@ -6,9 +6,48 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 **HappinessGPT** is a privacy-first web application that analyzes LinkedIn and Twitter communication patterns to provide Enneagram-based behavioral insights and personal growth recommendations.
 
-**Current Status:** Planning phase - no source code implemented yet.
+**Current Status:** Phase 1 Frontend Complete - Ready for backend integration
 
-**Target Stack:** React 18+ with TypeScript, Tailwind CSS, client-side ML models for privacy-first processing.
+**Tech Stack:**
+- Vite + React 18 + TypeScript
+- Tailwind CSS v4 with @tailwindcss/postcss
+- React Router for navigation
+- Context + useReducer for state management
+
+## Development Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+# → Runs at http://localhost:5173/
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Type check
+npm run lint
+```
+
+## Project Structure
+
+```
+src/
+├── components/
+│   ├── common/          # Reusable UI components (Button, Card, etc.)
+│   ├── upload/          # Upload interface components
+│   └── results/         # Results display components
+├── context/             # AppContext with useReducer
+├── pages/               # UploadPage, ResultsPage
+├── types/               # TypeScript definitions
+├── utils/               # Utilities (validation, cleanup, mock data)
+└── workers/             # Web Workers (placeholder for backend)
+```
 
 ## Architecture Principles
 
@@ -20,19 +59,37 @@ This is the core architectural constraint:
 - Use Web Workers for isolated processing
 - Only anonymous usage metrics allowed (no content tracking)
 
-### Hybrid Processing Model
-The app is designed to use a two-tier approach:
-1. **Client-side:** OCR text extraction from screenshots
-2. **Server-side (optional):** LLM-based text analysis (with user consent)
-3. **Fallback:** Manual text input as primary method
+### Current Implementation
+**Completed:**
+- Privacy modal with GDPR/CCPA compliance
+- Upload interface with drag-drop (1-3 items, 5MB max)
+- File preview with remove/reorder
+- Manual text input alternative
+- Complete results display (all 3 sections)
+- State management with AppContext
+- Error boundary and loading states
+- Responsive design (tablet+)
 
-### Multi-Platform Analysis
-The system must distinguish between:
-- LinkedIn communication patterns (professional context)
-- Twitter communication patterns (casual context)
-- Platform-specific behavioral differences
+**Using Mock Data:**
+- Currently displays example analysis results
+- Ready for backend integration
 
-## Core Analysis Engine
+### User Flow Constraints
+```
+1. Privacy acceptance (required first)
+2. Upload 1-3 items:
+   - Screenshots (PNG/JPEG, max 5MB each)
+   - OR manual text input
+3. Processing overlay (simulated ~2 seconds)
+4. Results display with:
+   - Type identification (Type 3w4 example)
+   - 5 behavioral dimensions
+   - Growth recommendations
+5. Download results or analyze again
+6. Automatic data cleanup
+```
+
+## Core Analysis Engine (To Be Implemented)
 
 ### Pattern Recognition Dimensions
 The AI analysis must evaluate across 5 dimensions:
@@ -56,103 +113,157 @@ The system maps linguistic patterns to 9 Enneagram types:
 
 Analysis must be multi-dimensional, considering context, frequency, and interaction between patterns.
 
-### Output Format
-The system generates:
-1. **Pattern Analysis:** 5 behavioral dimensions with scores/descriptions
-2. **Type Identification:** Primary type + wing with confidence scores
-3. **Evidence:** Supporting quotes from user's posts
-4. **Growth Recommendations:** 3-5 actionable suggestions tied to integration paths
+## Implementation Status
 
-## Development Phases
+### ✅ Phase 1: Frontend Complete
+- [x] Vite + React 18 + TypeScript setup
+- [x] Tailwind CSS v4 configuration
+- [x] Privacy modal with compliance
+- [x] Upload interface (drag-drop + manual input)
+- [x] File preview with controls
+- [x] Results display components
+- [x] State management (Context + useReducer)
+- [x] Error handling and loading states
+- [x] Responsive design
+- [x] Mock data for testing
 
-### Phase 1: Foundation (Weeks 1-3)
-- Upload interface with drag-and-drop
-- Text extraction (OCR + manual input)
-- Basic pattern matching for 3 types initially
-- Beta validation with 20 Enneagram experts
+### 🚧 Phase 1: Backend Remaining
+- [ ] Tesseract.js OCR implementation
+- [ ] Web Workers setup
+- [ ] Pattern matching for Types 3, 4, 7
+- [ ] 5-dimensional linguistic analysis
+- [ ] Confidence scoring system
+- [ ] Data cleanup automation
 
-### Phase 2: Core ML (Weeks 4-6)
-- Complete all 9 types + wings
-- Behavioral pattern extraction engine
-- Confidence scoring system
+### 📋 Phase 2: Core ML (Planned)
+- [ ] Complete all 9 types + wings
+- [ ] Enhanced analysis engine
+- [ ] Improved confidence scoring
 
-### Phase 3: Full Feature Set (Weeks 7-9)
-- Growth recommendations engine
-- Platform-specific insights (LinkedIn vs Twitter comparison)
-- Enhanced UI/UX
+### 📋 Phase 3: Full Features (Planned)
+- [ ] Growth recommendations engine
+- [ ] Platform-specific insights
+- [ ] Enhanced UI/UX
 
-### Phase 4: Launch Prep (Week 10)
-- Error handling and polish
-- Privacy policy finalization
-- Soft launch preparation
+## Key Configuration Notes
 
-## Open Architectural Decisions
+### Tailwind CSS v4
+**Important:** Tailwind v4 uses different syntax:
+- Use `@import "tailwindcss"` in CSS (NOT `@tailwind` directives)
+- PostCSS config requires `@tailwindcss/postcss` plugin
+- See `postcss.config.js` and `src/index.css` for correct setup
 
-### OCR Strategy
-Three approaches under consideration:
-- **Option A:** Tesseract.js (fully local, 60-80% accuracy)
-- **Option B:** GPT-4 Vision API (server-side, 95%+ accuracy)
-- **Option C:** Manual text input as primary method
-- **Current direction:** C + B combination
+### File Upload Limits
+- **MIN_FILES:** 1 (low barrier to entry)
+- **MAX_FILES:** 3 (focused, not overwhelming)
+- **MAX_FILE_SIZE:** 5MB per file
+- **ACCEPTED_TYPES:** PNG, JPEG, JPG
 
-### MVP Scope Decision
-Focus on users who already know their Enneagram type:
-- Primary: Behavioral insights for known types
-- Secondary: Type suggestions with confidence scores
-- Rationale: Reduces accuracy pressure, increases satisfaction
+### State Management
+- AppContext provides global state
+- useReducer handles complex state logic
+- Actions: ACCEPT_PRIVACY, ADD_FILES, START_PROCESSING, etc.
+- See `src/types/app.types.ts` for full action list
 
-## Key Constraints
+## When Implementing Backend Features
 
-### Performance Targets
-- Time to analysis: < 30 seconds from upload to insights
-- Browser compatibility: Chrome, Safari, Firefox, Edge (latest 2 versions)
-- Mobile responsive: Full functionality on tablet+ devices
+### For OCR Integration
+1. Use Tesseract.js for client-side processing
+2. Set up Web Worker to avoid blocking UI
+3. Process images in batch if multiple files
+4. Extract text and pass to analysis engine
+5. Clean up image data immediately after
 
-### Privacy Compliance
-Must meet:
-- GDPR compliance (no personal data collection)
-- CCPA compliance (California privacy standards)
-- Clear privacy policy displayed before upload
+### For Analysis Engine
+1. Create pattern matching algorithms (start with Types 3, 4, 7)
+2. Implement 5-dimensional scoring
+3. Calculate confidence levels
+4. Collect evidence quotes
+5. Return `AnalysisResult` type (see `src/types/analysis.types.ts`)
 
-### User Flow
-```
-Upload (5-10 screenshots/text)
-  → Process (client-side extraction)
-  → Analyze (pattern matching)
-  → Report (insights + recommendations)
-  → Delete (automatic data purge)
-```
+### Integration Points
+- Mock data in `src/utils/mockData.ts` shows expected format
+- Replace `mockAnalysisResult` with actual analysis in `UploadPage.tsx:handleAnalyze`
+- Use existing types for type safety
+- Maintain < 30 second processing time target
 
-## Target Users
-- Age 25-45, already know their Enneagram type
-- Active on LinkedIn/Twitter
-- Privacy-conscious
-- Invested in personal development
+## UX Principles Implemented
 
-## When Implementing Features
+### Progressive Disclosure
+- Privacy modal shown first
+- Manual text input hidden behind toggle
+- File preview only shows when files added
+- Progress bar only shows when content added
 
-### For Upload/Processing Features
-- Prioritize privacy: process locally before considering server calls
-- Support both screenshot upload AND manual text input
-- Use Web Workers to avoid blocking UI during processing
-- Delete data immediately after analysis completes
+### Low Barriers to Entry
+- Only 1 item minimum (vs original 5)
+- Maximum 3 items (vs original 10)
+- Smaller file size (5MB vs 10MB)
+- Clear, simple messaging
 
-### For Analysis Features
-- Support multi-dimensional scoring (not just keyword matching)
-- Provide evidence-based insights with quoted examples
-- Calculate confidence scores for type identification
-- Consider platform context (LinkedIn vs Twitter differences)
+### Clear Feedback
+- Visual upload state (pending/processing/error)
+- Progress indicator
+- Success/error messages
+- Loading overlays
 
-### For Growth Recommendations
-- Tie recommendations to Enneagram integration paths
-- Provide platform-specific tactics
-- Base suggestions on actual detected patterns, not generic advice
-- Limit to 3-5 actionable recommendations
+## Privacy Compliance
 
-## Future Roadmap Context
-Post-MVP features planned:
+**GDPR/CCPA Requirements:**
+- Privacy notice before any data collection
+- No personal data stored
+- Client-side processing only
+- Immediate data deletion
+- Anonymous usage analytics only
+
+**Data Lifecycle:**
+1. User uploads → stored in memory only
+2. Processing → happens in browser
+3. Results generated → displayed immediately
+4. Data deleted → automatic cleanup on:
+   - Analysis completion
+   - Page navigation
+   - Browser close
+   - "Analyze Again" action
+
+## Known Issues & Solutions
+
+### Tailwind CSS v4 Migration
+If you see PostCSS errors:
+1. Ensure `@tailwindcss/postcss` is installed
+2. Use `@import "tailwindcss"` in CSS (not `@tailwind`)
+3. Check `postcss.config.js` has correct plugin
+
+### Type Errors
+- All types defined in `src/types/`
+- Use strict TypeScript mode
+- Import from `'../types'` for convenience
+
+## Testing the App
+
+1. Start dev server: `npm run dev`
+2. Visit http://localhost:5173/
+3. Accept privacy modal
+4. Upload 1-3 images OR paste text
+5. Click "Analyze My Patterns"
+6. View mock results
+7. Test "Analyze Again" and "Download Results"
+
+## Next Steps for Backend Developer
+
+1. Implement Tesseract.js OCR in `src/workers/ocr.worker.ts`
+2. Create pattern matching in `src/utils/patternMatching.ts`
+3. Build analysis engine in `src/utils/analysisEngine.ts`
+4. Replace mock data call in `src/pages/UploadPage.tsx`
+5. Test with real data
+6. Optimize for < 30 second processing time
+
+## Future Enhancements
+
+Post-MVP features:
 - Instagram/Facebook analysis
-- Relationship dynamics (conversation thread analysis)
+- Relationship dynamics analysis
 - Temporal tracking (growth over time)
 - API for coaches
 - Native mobile apps
+- More Enneagram types initially (start with 3)
