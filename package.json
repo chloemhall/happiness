@@ -1,0 +1,53 @@
+{
+  "name": "happiness",
+  "private": true,
+  "version": "1.0.0",
+  "description": "HappinessGPT - Privacy-first AI analysis of your LinkedIn & Twitter communication patterns",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview",
+    "lint": "tsc --noEmit"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/chloemhall/happiness.git"
+  },
+  "keywords": [
+    "enneagram",
+    "personality",
+    "ai",
+    "analysis",
+    "privacy-first"
+  ],
+  "author": "Jason, Blossom & Chloe",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/chloemhall/happiness/issues"
+  },
+  "homepage": "https://github.com/chloemhall/happiness#readme",
+  "dependencies": {
+    "clsx": "^2.1.1",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.5",
+    "tesseract.js": "^6.0.1"
+  },
+  "devDependencies": {
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@types/react": "^19.2.4",
+    "@types/react-dom": "^19.2.3",
+    "@vitejs/plugin-react": "^5.1.1",
+    "@vitest/ui": "^4.0.8",
+    "autoprefixer": "^10.4.22",
+    "jsdom": "^27.2.0",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
+    "typescript": "^5.9.3",
+    "vite": "^7.2.2",
+    "vitest": "^4.0.8"
+  }
+}
